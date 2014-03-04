@@ -5,10 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RushHour extends JFrame{
-	private Board board = new Board();
+	private Canvas canvas = new Canvas();
 	private JMenuBar menuBar;
 	private JMenu game, help;
 	private JMenuItem newGame, exit, topTen, helpMenu, about, resetScores;
+	
 	public static void main(String[] args) {
 		/*For Mac Users, sets the menu bar on the top*/
 		if (System.getProperty("os.name").contains("Mac")) {
@@ -55,7 +56,7 @@ public class RushHour extends JFrame{
 		help.add(about);
 
 		setJMenuBar(menuBar);
-		add(new Canvas());
+		add(canvas);
 		/*end setup of the menubar*/
 		pack();
 		setVisible(true);
