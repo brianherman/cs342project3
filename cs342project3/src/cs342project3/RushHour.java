@@ -8,7 +8,7 @@ public class RushHour extends JFrame{
 	private Canvas canvas = new Canvas();
 	private JMenuBar menuBar;
 	private JMenu game, help;
-	private JMenuItem newGame, exit, topTen, helpMenu, about, resetScores;
+	private JMenuItem newGame, exit, helpMenu, about;
 	
 	public static void main(String[] args) {
 		/*For Mac Users, sets the menu bar on the top*/

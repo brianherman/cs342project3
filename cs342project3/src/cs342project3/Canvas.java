@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 	private Image grid;
-	private Rectangle cars[] = new Rectangle[8];
 	private Board board = new Board();
 	private Point click = new Point();
 	Canvas() {
@@ -19,17 +18,7 @@ public class Canvas extends JPanel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(int i=0; i<cars.length; i++)
-		{
-			if(board.get(i).direction()==Piece.HORIZONTAL){
-			cars[i] = new Rectangle(
-					board.get(i).getY()*114,board.get(i).getX()*114,board.get(i).length()*114,114);
-			}else{
-				cars[i] = new Rectangle(
-						board.get(i).getY()*114,board.get(i).getX()*114,114,board.get(i).length()*114);
 
-			}
-		}
 		setPreferredSize(new Dimension(686,686));
 		addMouseListener(new PanelMouseAdapter());
     }
@@ -38,22 +27,30 @@ public class Canvas extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 		g.drawImage(grid, 0, 0, this);
-		g.drawRect(click.x*114, click.y*114, 114, 114);
-		for(int i=0; i<cars.length; i++){
+		
+		for(int i=0; i<8; i++){
 			g.setColor(board.get(i).getColor());
-			g.fillRect(cars[i].x,cars[i].y,cars[i].width,cars[i].height);
+			g.fillRect(board.get(i).bounds().x,board.get(i).bounds().y,board.get(i).bounds().width,board.get(i).bounds().height);
 		}
+		g.setColor(Color.black);
+		g.drawRect(click.x*114, click.y*114, 114, 114);
     }
     private class PanelMouseAdapter extends MouseAdapter{
-    	 public void mousePressed(MouseEvent e) 
+    	 public void mousePressed(MouseEvent e)
     	 {
     		int X = e.getX();
     		int Y = e.getY();
+    		for(int i=0; i<8; i++){
+    		if(board.get(i).bounds().contains(new Point(X,Y)))
+				if(board.get(i).direction() == Piece.HORIZONTAL)
+					board.moveHorizontal(board.get(i), 1);
+				else
+					board.moveVertical(board.get(i), 1);
+    		}
     		System.out.println(X +" "+Y);
     		click = new Point(X/114,Y/114);
     		System.out.println(click.x +" "+click.y);
-    		
-    		 repaint();
+    		repaint();
     	 }
          public void mouseReleased(MouseEvent e) 
          {

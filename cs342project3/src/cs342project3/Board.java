@@ -1,6 +1,7 @@
 package cs342project3;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -21,13 +22,13 @@ public class Board {
 		
 		pieces[0] = new Piece(0,0, 2, Piece.HORIZONTAL, Color.red);
 		pieces[1] = new Piece(0,1, 3, Piece.VERTICAL, Color.orange);
-		pieces[2] = new Piece(0,5, 2, Piece.VERTICAL, Color.green);
+		pieces[2] = new Piece(5,0, 2, Piece.VERTICAL, Color.green);
 		pieces[3] = new Piece(1,2, 2, Piece.HORIZONTAL, Color.blue);
 		pieces[4] = new Piece(3,1, 3, Piece.VERTICAL, Color.CYAN);
 		pieces[5] = new Piece(0,5, 3, Piece.HORIZONTAL, Color.PINK);
 		pieces[6] = new Piece(5,4, 2, Piece.VERTICAL, Color.black);
 		pieces[7] = new Piece(2,4, 3, Piece.HORIZONTAL, new Color(255,0,255));
-
+	
 		placePieces();
 	}
 	public void read(File f)
@@ -39,12 +40,12 @@ public class Board {
 		{
 			for(int j=0; j<6; j++)
 			{
-				board[i][j]='_';
+				board[i][j]=' ';
 			}
 		}
 		for(int i=0; i<pieces.length; i++)
 		{
-			if(pieces[i].direction()==Piece.VERTICAL)
+			if(pieces[i].direction()==Piece.HORIZONTAL)
 			{
 				for(int j=0; j <pieces[i].length(); j++)
 				{
@@ -59,41 +60,48 @@ public class Board {
 				}
 			}
 		}
+		System.out.println("===BOARD===");
 		for(int i=0; i<6; i++){
 			for(int j=0; j<6; j++){
 				System.out.print(board[i][j]);
 			}
 			System.out.println();
 		}
-		
+		for(int i=0; i<8; i++)
+		{
+			if(pieces[i].direction()==Piece.HORIZONTAL){
+			pieces[i].setBounds( new Rectangle(
+					pieces[i].getX()*114,pieces[i].getY()*114,pieces[i].length()*114,114));
+			}else{
+				pieces[i].setBounds(  new Rectangle(
+						pieces[i].getX()*114,pieces[i].getY()*114,114,pieces[i].length()*114));
+			}
+		}
 	}
-	public boolean moveVertical(Piece p, int modifier)
+	public void moveVertical(Piece p, int modifier)
 	{
 		int move=p.getY()+modifier;
-		if(move>6 && move < 0)
+		
+		if(board[p.getY()][move]!= ' ')
 		{
-			return false;
-		}
-		if(board[p.getX()][move]!= ' ')
-		{
-			return false;
-		}
-		p.setY(move);
-		return true;
+			p.setY(move);
+			p.setBounds(new Rectangle(
+					p.getX()*114,p.getY()*114,p.length()*114,114));
+			
+			placePieces();
+		}		
 	}
-	public boolean moveHorizontal(Piece p, int modifier)
+	public void moveHorizontal(Piece p, int modifier)
 	{
 		int move=p.getX()+modifier;
-		if(move > 6 && move < 0)
+		
+		if(board[move][p.getY()] !=  ' ')
 		{
-			return false;
+			p.setX(move);
+			p.setBounds(new Rectangle(
+					p.getX()*114,p.getY()*114,114,p.length()*114));
+			placePieces();
 		}
-		if(board[move][p.getY()]!= ' ')
-		{
-			return false;
-		}
-		p.setX(move);
-		return true;
 	}
 	public Piece get(int index)
 	{

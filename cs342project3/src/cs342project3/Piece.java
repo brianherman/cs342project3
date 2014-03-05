@@ -1,6 +1,7 @@
 package cs342project3;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 
 
 public class Piece {
@@ -11,6 +12,7 @@ private int y;
 private Color color;
 private int length;
 private int direction;
+private Rectangle bounds;
 public Piece(int a, int b,int l, int d, Color c)
 {
 	x=a;
@@ -46,5 +48,12 @@ public int direction(){
 }
 public int length() {
 	return length;
+}
+public void setBounds(Rectangle r)
+{
+	bounds=r;
+}
+public Rectangle bounds(){
+	return bounds;
 }
 }
