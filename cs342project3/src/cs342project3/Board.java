@@ -28,6 +28,16 @@ public class Board {
 		pieces[5] = new Piece(0,5, 3, Piece.HORIZONTAL, Color.PINK,5);
 		pieces[6] = new Piece(5,4, 2, Piece.VERTICAL, Color.black,6);
 		pieces[7] = new Piece(2,4, 3, Piece.HORIZONTAL, new Color(255,0,255),7);
+		for(int i=0; i<8; i++)
+		{
+			if(pieces[i].direction()==Piece.HORIZONTAL){		
+				pieces[i].setBounds( new Rectangle(
+						pieces[i].getX()*114,pieces[i].getY()*114,pieces[i].length()*114,114));
+			}else{
+				pieces[i].setBounds(  new Rectangle(
+						pieces[i].getX()*114,pieces[i].getY()*114,114,pieces[i].length()*114));
+			}
+		}
 
 		placePieces();
 	}
@@ -36,9 +46,9 @@ public class Board {
 
 	}
 	private void placePieces(){
-		for(int i=0; i<6; i++)
+		for(int i=0; i<5; i++)
 		{
-			for(int j=0; j<6; j++)
+			for(int j=0; j<5; j++)
 			{
 				board[i][j]=' ';
 			}
@@ -67,62 +77,56 @@ public class Board {
 			}
 			System.out.println();
 		}
-		for(int i=0; i<8; i++)
-		{
-			if(pieces[i].direction()==Piece.HORIZONTAL){
-				pieces[i].setBounds( new Rectangle(
-						pieces[i].getX()*114,pieces[i].getY()*114,pieces[i].length()*114,114));
-			}else{
-				pieces[i].setBounds(  new Rectangle(
-						pieces[i].getX()*114,pieces[i].getY()*114,114,pieces[i].length()*114));
-			}
-		}
 	}
 	public void moveVertical(Piece p, int modifier)
 	{
+		int previous = p.getY();
 		int move=p.getY()+modifier;
 		System.out.println("MOVE IS:"+move);
-		
-		if(move > 0 && move < 6){
+		if(move==-1)
+			move=1;
+		if(move >= 0 && move < 5){
+			p.setY(move);
+
+			System.out.println("Preforming move");
 			for(int i=0; i<pieces.length; i++){
 				if(i != p.id()){
-				
+					System.out.println(i + ": "+p.bounds().intersects(pieces[i].bounds()));
+
 					if(p.bounds().intersects(pieces[i].bounds()))
 					{
+						p.setY(previous);
 						return;
 					}
 				}
 			}
-			System.out.println("Preforming move");
 			p.setY(move);
-			p.setBounds(new Rectangle(
-					p.getX()*114,p.getY()*114,p.length()*114,114));
-
+			
 			placePieces();
 		}
 	}
 	public void moveHorizontal(Piece p, int modifier)
 	{
+		int previous = p.getX();
 		int move=p.getX()+modifier;
-		boolean preform = true;
 		System.out.println("MOVE IS:"+move);
-		if(move >= 0 && move < 6){
+		if(move==-1)
+			move=1;
+		if(move >= 0 && move < 5){
+			p.setX(move);
 			for(int i=0; i<pieces.length; i++){
+				System.out.println(i + ": "+p.bounds().intersects(pieces[i].bounds()));
 				if(i != p.id()){
 					if(p.bounds().intersects(pieces[i].bounds()))
 					{
-						preform = false;
+						p.setX(previous);
+						return;
 					}
 				}
 			}
-			if(preform == true)
-			{
-				System.out.println("Preforming move");
-				p.setX(move);
-				p.setBounds(new Rectangle(
-						p.getX()*114,p.getY()*114,114,p.length()*114));
-				placePieces();
-			}
+			p.setX(move);
+			
+			placePieces();
 		}
 	}
 	public Piece get(int index)

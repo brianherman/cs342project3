@@ -42,10 +42,14 @@ public class Piece {
 	public void setX(int a)
 	{
 		x=a;
+		setBounds(new Rectangle(
+				x*114,y*114,length()*114,114));
 	}
 	public void setY(int b)
 	{
 		y=b;
+		setBounds(new Rectangle(
+				x*114,y*114,114,length()*114));
 	}
 	public Color getColor() {
 		return color;
@@ -61,10 +65,10 @@ public class Piece {
 	}
 	public void setBounds(Rectangle rectangle)
 	{
-		bounds=rectangle;
+		bounds=new Rectangle(rectangle);
 	}
 	public Rectangle bounds(){
-		return bounds;
+		return new Rectangle(bounds);
 	}
 	public int id()
 	{

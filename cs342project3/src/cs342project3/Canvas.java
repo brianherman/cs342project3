@@ -43,19 +43,17 @@ public class Canvas extends JPanel {
     private class PanelMouseAdapter extends MouseAdapter{
     	 public void mousePressed(MouseEvent e)
     	 {
-    		int X = e.getX();
-    		int Y = e.getY();
+    	
     		for(int i=0; i<8; i++){
-    			if(board.get(i).bounds().contains(new Point(X,Y))){
-    				
+    			if(board.get(i).bounds().contains(e.getPoint())){
     				if(board.get(i).direction() == Piece.HORIZONTAL){
-    					if(whichSideClicked(new Point(X,Y),board.get(i).direction(),board.get(i).bounds())==LEFT){
+    					if(whichSideClicked(e.getPoint(),board.get(i))==LEFT){
     						board.moveHorizontal(board.get(i), 1);
     					}else{
     						board.moveHorizontal(board.get(i), -1);
     					}
     				}else{
-    					if(whichSideClicked(new Point(X,Y),board.get(i).direction(),board.get(i).bounds())==UP){
+    					if(whichSideClicked(e.getPoint(),board.get(i))==UP){
     						board.moveVertical(board.get(i), -1);
     					}else{
     						board.moveVertical(board.get(i), 1);
@@ -65,22 +63,22 @@ public class Canvas extends JPanel {
     			}
     		}
     		//System.out.println(X +" "+Y);
-    		click = new Point(X/114,Y/114);
+    		//click = new Point(e.getX()/114,e.getY()/114);
     		//System.out.println(click.x +" "+click.y);
     		repaint();
     	 }
-    	 public int whichSideClicked(Point p, int Orentation, Rectangle b)
+    	 public int whichSideClicked(Point p,Piece pi)
     		{
-    			if(Orentation == Piece.HORIZONTAL)
-    				if(b.getCenterX()<p.x && b.getCenterY() < p.y)
+    			if(pi.direction() == Piece.HORIZONTAL)
+    				if(pi.bounds().getCenterX()<p.x && pi.bounds().getCenterY() < p.y)
     					return LEFT;
     				else 
     					return RIGHT;
     			else
-    				if(b.getCenterX()> p.x && b.getCenterY() > p.y)
-    					return UP;
-    				else
+    				if(pi.bounds().getCenterX() > p.x && pi.bounds().getCenterY() > p.y)
     					return DOWN;
+    				else
+    					return UP;
     		}
          public void mouseReleased(MouseEvent e) 
          {
