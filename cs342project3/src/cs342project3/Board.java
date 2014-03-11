@@ -60,13 +60,13 @@ public class Board {
 			String dimentions[]=line.split(" ");
 			rows = Integer.parseInt(dimentions[0]);
 			cols = Integer.parseInt(dimentions[1]);
-			System.out.println(rows+cols);
+			System.out.println(rows+" "+ cols);
 			int counter = 0;
 			/* Get the goal piece */
 			line = br.readLine();
 			String input[] = line.split(" ");
-			int row = Integer.parseInt(input[0]);
-			int column = Integer.parseInt(input[1]);
+			int row = Integer.parseInt(input[0])-1;
+			int column = Integer.parseInt(input[1])-1;
 			int width = Integer.parseInt(input[2]);
 			int height = Integer.parseInt(input[3]);
 			char direction = input[4].charAt(0);
@@ -80,8 +80,8 @@ public class Board {
 			System.out.println("GOAL PIECE: "+ row +" "+ column +" "+ width +" "+ height +" "+ direction);
 			while (	(line = br.readLine()) != null){
 				 input = line.split(" ");
-				 row = Integer.parseInt(input[0]);
-				 column = Integer.parseInt(input[1]);
+				 row = Integer.parseInt(input[0])-1;
+				 column = Integer.parseInt(input[1])-1;
 				 width = Integer.parseInt(input[2]);
 				 height = Integer.parseInt(input[3]);
 				 direction = input[4].charAt(0);
@@ -115,11 +115,13 @@ public class Board {
 			{
 				for(int j=0; j <pieces.get(i).length(); j++)
 				{
+					if(pieces.get(i).getX()+j < rows-1)
 						board[pieces.get(i).getY()][pieces.get(i).getX()+j]=char2int[pieces.get(i).id()];
 				}
 			}else{
 				for(int j=0; j <pieces.get(i).length(); j++)
 				{
+					if(pieces.get(i).getY()+j < cols-1)
 						board[pieces.get(i).getY()+j][pieces.get(i).getX()]=char2int[pieces.get(i).id()];
 				}
 			}
@@ -139,7 +141,7 @@ public class Board {
 		System.out.println("MOVE IS:"+move);
 		if(move==-1)
 			move=1;
-		if(move >= 0 && move < rows){
+		if(move >= 0 && move < cols-1){
 			p.setY(move);
 
 			System.out.println("Preforming move");
@@ -165,7 +167,7 @@ public class Board {
 		System.out.println("MOVE IS:"+move);
 		if(move==-1)
 			move=1;
-		if(move >= 0 && move < cols){
+		if(move >= 0 && move < rows-1){
 			p.setX(move);
 			for(int i=0; i<pieces.size(); i++){
 				System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
