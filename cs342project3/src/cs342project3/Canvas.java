@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
-	private Board board = new Board(new File("test.txt"));
+	private File level= new File("level0.txt");
+	private Board board = new Board(level);
 	public Canvas() {
 		PanelMouseAdapter ma = new PanelMouseAdapter();
 		setPreferredSize(new Dimension(board.getRows()*114,board.getCols()*114));
@@ -19,7 +20,6 @@ public class Canvas extends JPanel {
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//g.drawImage(grid, 0, 0, this);
 		for(int i=0; i<board.getRows(); i++)
 			for(int j=0; j<board.getCols(); j++)
 				g.drawRect(i * 114, j * 114, 114, 114);
@@ -62,5 +62,21 @@ public class Canvas extends JPanel {
 			repaint();	
 		}
 	}
-
+	public void reset()
+	{
+		board = new Board(level);
+		repaint();
+	}
+	public void loadLevel(int l)
+	{
+		level = new File("level" + l + ".txt");
+		board = new Board(level);
+		repaint();
+	}
+	public void load(File f)
+	{
+		level = f;
+		board = new Board(level);
+		repaint();
+	}
 }

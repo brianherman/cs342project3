@@ -10,16 +10,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Board {
-	private ArrayList<char[][]> history = new ArrayList<char[][]>();
 	private char board[][];
 	private int rows,cols;
 	private char char2int[] = {'Z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'};
 	private Color Colors[] = {Color.red, Color.blue, Color.green, Color.cyan,Color.magenta,Color.orange,Color.pink,Color.yellow, Color.lightGray};
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
-	
+
 	public Board(File fname)
 	{
+		try{
 		read(fname);
+		}catch(IOException e){
+		if(e.getMessage().equals("Wrong number of rows."))
+			System.err.println("Error in file");
+		if(e.getMessage().equals("Wrong number of cols."))
+			System.err.println("Error in file");
+		e.printStackTrace();
+		}
 		board = new char[rows][cols];
 		for(int i=0; i<rows; i++)
 		{
@@ -51,55 +58,67 @@ public class Board {
 	horizontal and vertical movement, or a "n" for no movement (the piece cannot move, it must stay in that 
 	space). 
 	 */
-	public void read(File f)
+	public void read(File f) throws IOException
 	{
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(f));
-			String line = br.readLine();
-			/* Get the rows and columns */
-			String dimentions[]=line.split(" ");
-			rows = Integer.parseInt(dimentions[0]);
-			cols = Integer.parseInt(dimentions[1]);
-			System.out.println(rows+" "+ cols);
-			int counter = 0;
-			/* Get the goal piece */
-			line = br.readLine();
-			String input[] = line.split(" ");
-			int row = Integer.parseInt(input[0])-1;
-			int column = Integer.parseInt(input[1])-1;
-			int width = Integer.parseInt(input[2]);
-			int height = Integer.parseInt(input[3]);
-			char direction = input[4].charAt(0);
+		BufferedReader br = new BufferedReader(new FileReader(f));
+		String line = br.readLine();
+		/* Get the rows and columns */
+		String dimentions[]=line.split(" ");
+		rows = Integer.parseInt(dimentions[0]);
+		cols = Integer.parseInt(dimentions[1]);
+		System.out.println(rows+" "+ cols);
+		int counter = 0;
+		/* Get the goal piece */
+		line = br.readLine();
+		String input[] = line.split(" ");
+		int row = Integer.parseInt(input[0])-1;
+		if(row+1<0 || row+1 > rows){
+			br.close();
+			throw new IOException("Wrong number of rows.");
+		}
+		int column = Integer.parseInt(input[1])-1;
+		if(column+1<0 || column+1 > cols){
+			br.close();
+			throw new IOException("Wrong Number of Cols");
+		}
+		int width = Integer.parseInt(input[2]);
+		int height = Integer.parseInt(input[3]);
+		char direction = input[4].charAt(0);
+		if(direction == 'h'){
+			pieces.add(new Piece(row,column, width, Piece.HORIZONTAL, Colors[counter],counter,true));
+		}
+		if(direction == 'v'){
+			pieces.add(new Piece(row,column, height, Piece.VERTICAL, Colors[counter],counter,true));
+		}
+		counter++;
+		System.out.println("GOAL PIECE: "+ row +" "+ column +" "+ width +" "+ height +" "+ direction);
+		while (	(line = br.readLine()) != null){
+			input = line.split(" ");
+			row = Integer.parseInt(input[0])-1;
+			if(row+1<0 || row+1 > rows){
+				br.close();
+				throw new IOException("Wrong number of rows.");
+			}
+			column = Integer.parseInt(input[1])-1;
+			if(column+1<0 || column+1 > cols){
+				br.close();
+				throw new IOException("Wrong Number of Cols");
+			}
+			width = Integer.parseInt(input[2]);
+			height = Integer.parseInt(input[3]);
+			direction = input[4].charAt(0);
+			System.out.println(row +" "+ column +" "+ width +" "+ height +" "+ direction);
 			if(direction == 'h'){
-				pieces.add(new Piece(row,column, width, Piece.HORIZONTAL, Colors[counter],counter,true));
+				pieces.add(new Piece(row,column, width, Piece.HORIZONTAL, Colors[counter%8],counter,false));
 			}
 			if(direction == 'v'){
-				pieces.add(new Piece(row,column, height, Piece.VERTICAL, Colors[counter],counter,true));
+				pieces.add(new Piece(row,column, height, Piece.VERTICAL, Colors[counter%8],counter,false));
 			}
 			counter++;
-			System.out.println("GOAL PIECE: "+ row +" "+ column +" "+ width +" "+ height +" "+ direction);
-			while (	(line = br.readLine()) != null){
-				 input = line.split(" ");
-				 row = Integer.parseInt(input[0])-1;
-				 column = Integer.parseInt(input[1])-1;
-				 width = Integer.parseInt(input[2]);
-				 height = Integer.parseInt(input[3]);
-				 direction = input[4].charAt(0);
-				System.out.println(row +" "+ column +" "+ width +" "+ height +" "+ direction);
-				if(direction == 'h'){
-					pieces.add(new Piece(row,column, width, Piece.HORIZONTAL, Colors[counter%8],counter,false));
-				}
-				if(direction == 'v'){
-					pieces.add(new Piece(row,column, height, Piece.VERTICAL, Colors[counter%8],counter,false));
-				}
-				counter++;
-			}
-			br.close();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		br.close();
+
+
 	}
 	private void placePieces(){
 		for(int i=0; i<rows; i++)
@@ -156,7 +175,7 @@ public class Board {
 				}
 			}
 			p.setY(move);
-			
+
 			placePieces();
 		}
 	}
