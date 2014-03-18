@@ -22,6 +22,8 @@ public class Piece {
 	private int id;
 	private Rectangle bounds;
 	private boolean goal;
+	
+	
 	public Piece(int a, int b,int l, int d, Color c, int i, boolean g)
 	{
 		x=a;
@@ -40,20 +42,36 @@ public class Piece {
 		color=p.color;
 		id=p.id;
 	}
+	/**
+	 * Returns the X value
+	 * @return
+	 */
 	public int getX()
 	{
 		return x;
 	}
+	/**
+	 * Returns the Y value
+	 * @return
+	 */
 	public int getY()
 	{
 		return y;
 	}
+	/**
+	 * Sets the X value and resets the bounds of the rectangle.
+	 * @param a
+	 */
 	public void setX(int a)
 	{
 		x=a;
 		setBounds(new Rectangle(
 				x*114,y*114,length*114,114));
 	}
+	/**
+	 * Sets the Y value and resets the bounds of the rectangle.
+	 * @param a
+	 */
 	public void setY(int b)
 	{
 		y=b;
@@ -66,16 +84,32 @@ public class Piece {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	/**
+	 * Returns the direction 0 for vertical 1 for horizontal.
+	 * @return
+	 */
 	public int direction(){
 		return direction;
 	}
+	/**
+	 * Returns the length of the piece.
+	 * @return
+	 */
 	public int length() {
 		return length;
 	}
+	/**
+	 * Sets the bounds.
+	 * @param rectangle
+	 */
 	public void setBounds(Rectangle rectangle)
 	{
 		bounds=new Rectangle(rectangle);
 	}
+	/**
+	 * Returns the bounds, the rectangle that surrounds the piece.
+	 * @return
+	 */
 	public Rectangle bounds(){
 		return new Rectangle(bounds);
 	}
@@ -83,9 +117,18 @@ public class Piece {
 	{
 		return id;
 	}
+	/**
+	 * Checks if the piece is the goal piece.
+	 * @return
+	 */
 	public boolean isGoal(){
 		return goal;
 	}
+	/**
+	 * Returns the side that was clicked.
+	 * @param p
+	 * @return
+	 */
 	public int whichSideClicked(Point p) {
 		if (this.direction() == Piece.HORIZONTAL)
 			if (this.bounds().getCenterX() < p.x

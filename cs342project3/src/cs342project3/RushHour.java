@@ -23,6 +23,9 @@ public class RushHour extends JFrame{
 		RushHour rh = new RushHour();
 		rh.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	/**
+	 * Constructor for the main window
+	 */
 	public RushHour(){
 		MainWindowListener mwl = new MainWindowListener();
 		fc = new JFileChooser();
@@ -83,13 +86,15 @@ public class RushHour extends JFrame{
 		setVisible(true);
 	}
 	private class MainWindowListener implements ActionListener{
-
+		/**
+		 * Main Window Listener for the main window.
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for(int i=0; i<9; i++){
 				if(levelItems[i]==e.getSource())
 				{
-					canvas.loadLevel(i);
+					canvas.load(i);
 					break;
 				}
 			}

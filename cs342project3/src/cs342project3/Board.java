@@ -12,20 +12,22 @@ import java.util.ArrayList;
 public class Board {
 	private char board[][];
 	private int rows,cols;
-	private char char2int[] = {'Z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'};
 	private Color Colors[] = {Color.red, Color.blue, Color.green, Color.cyan,Color.magenta,Color.orange,Color.pink,Color.yellow, Color.lightGray};
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
-
+	/**
+	 * Creates a new board based on a filename
+	 * @param fname
+	 */
 	public Board(File fname)
 	{
 		try{
-		read(fname);
+			read(fname);
 		}catch(IOException e){
-		if(e.getMessage().equals("Wrong number of rows."))
-			System.err.println("Error in file");
-		if(e.getMessage().equals("Wrong number of cols."))
-			System.err.println("Error in file");
-		e.printStackTrace();
+			if(e.getMessage().equals("Wrong number of rows."))
+				System.err.println("Error in file");
+			if(e.getMessage().equals("Wrong number of cols."))
+				System.err.println("Error in file");
+			e.printStackTrace();
 		}
 		board = new char[rows][cols];
 		for(int i=0; i<rows; i++)
@@ -46,7 +48,7 @@ public class Board {
 			}
 		}
 
-		placePieces();
+		//placePieces();
 	}
 	/*
 	 * The first integer will be the starting row position. 
@@ -57,6 +59,11 @@ public class Board {
 	an "h" for horizontal movement (left or right), a "v" for vertical movement (up or down), a "b" for both 
 	horizontal and vertical movement, or a "n" for no movement (the piece cannot move, it must stay in that 
 	space). 
+	 */
+	/**
+	 * Reads a file from and converts it into a board.
+	 * @param f
+	 * @throws IOException
 	 */
 	public void read(File f) throws IOException
 	{
@@ -120,46 +127,18 @@ public class Board {
 
 
 	}
-	private void placePieces(){
-		for(int i=0; i<rows; i++)
-		{
-			for(int j=0; j<cols; j++)
-			{
-				board[i][j]=' ';
-			}
-		}
-		for(int i=0; i<pieces.size(); i++)
-		{
-			if(pieces.get(i).direction()==Piece.HORIZONTAL)
-			{
-				for(int j=0; j <pieces.get(i).length(); j++)
-				{
-					if(pieces.get(i).getX()+j < rows-1)
-						board[pieces.get(i).getY()][pieces.get(i).getX()+j]=char2int[pieces.get(i).id()];
-				}
-			}else{
-				for(int j=0; j <pieces.get(i).length(); j++)
-				{
-					if(pieces.get(i).getY()+j < cols-1)
-						board[pieces.get(i).getY()+j][pieces.get(i).getX()]=char2int[pieces.get(i).id()];
-				}
-			}
-		}
-		System.out.println("===BOARD===");
-		for(int i=0; i<rows; i++){
-			for(int j=0; j<cols; j++){
-				System.out.print(board[i][j]);
-			}
-			System.out.println();
-		}
-	}
+	/**
+	 * Moves a piece Vertically.
+	 * @param p the piece to be moved
+	 * @param modifier, how many squares to move it
+	 */
 	public void moveVertical(Piece p, int modifier)
 	{
 		int previous = p.getY();
 		int move=p.getY()+modifier;
 		System.out.println("MOVE IS:"+move);
-		if(move==-1)
-			move=1;
+//		if(move==-1)
+//			move=1;
 		if(move >= 0 && move < cols-1){
 			p.setY(move);
 
@@ -176,16 +155,20 @@ public class Board {
 			}
 			p.setY(move);
 
-			placePieces();
 		}
 	}
+	/**
+	 * Moves a piece horizontally.
+	 * @param p the piece to be moved
+	 * @param modifier, how many squares to move it
+	 */
 	public void moveHorizontal(Piece p, int modifier)
 	{
 		int previous = p.getX();
 		int move=p.getX()+modifier;
 		System.out.println("MOVE IS:"+move);
-		if(move==-1)
-			move=1;
+//		if(move==-1)
+//			move=1;
 		if(move >= 0 && move < rows-1){
 			p.setX(move);
 			for(int i=0; i<pieces.size(); i++){
@@ -199,19 +182,35 @@ public class Board {
 				}
 			}
 			p.setX(move);
-			placePieces();
 		}
 	}
+	/**
+	 * Returns the number of pieces
+	 * @return
+	 */
 	public int numberOfPieces(){
 		return pieces.size();
 	}
+	/**
+	 * Gets the piece based on the index
+	 * @param index
+	 * @return
+	 */
 	public Piece get(int index)
 	{
 		return pieces.get(index);
 	}
+	/**
+	 * Gets the number of rows
+	 * @return
+	 */
 	public int getRows(){
 		return rows;
 	}
+	/**
+	 * Gets the number of Columns.
+	 * @return
+	 */
 	public int getCols(){
 		return rows;
 	}

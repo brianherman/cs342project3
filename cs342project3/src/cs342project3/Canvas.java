@@ -3,9 +3,7 @@ package cs342project3;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
@@ -62,17 +60,28 @@ public class Canvas extends JPanel {
 			repaint();	
 		}
 	}
+	/**
+	 * Resets the board
+	 */
 	public void reset()
 	{
 		board = new Board(level);
 		repaint();
 	}
-	public void loadLevel(int l)
+	/**
+	 * Loads the level
+	 * @param l number of the level
+	 */
+	public void load(int l)
 	{
 		level = new File("level" + l + ".txt");
 		board = new Board(level);
 		repaint();
 	}
+	/**
+	 * Loads level from a file
+	 * @param f 
+	 */
 	public void load(File f)
 	{
 		level = f;
