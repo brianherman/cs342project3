@@ -11,6 +11,7 @@ public class SearchBoard {
 	private ArrayList<Integer> positions;
 	public HashSet<String> history;
 	private boolean legal=true;
+	private static int lowestWinningLine;
 	
 	public static ArrayList<Integer> wins=new ArrayList<Integer>();
 
@@ -35,7 +36,7 @@ public class SearchBoard {
 		}
 		
 		setBoardString();
-		setPositions();
+		
 		
 		
 		
@@ -46,6 +47,7 @@ public class SearchBoard {
 		}
 		
 		else if (isLegalBoard() && !history.contains(getBoardString())&& moveNumber<10){
+			setPositions();
 		history.add(boardString);
 		generateBoards();
 		}
@@ -58,6 +60,8 @@ public class SearchBoard {
 	
 	
 	public int movesToWin(){
+		if (wins.size()==0)
+			return 1001;
 		int min=wins.get(0);
 		for(int i=0; i<wins.size(); i++){
 			if (wins.get(i)<min)
@@ -200,12 +204,69 @@ public class SearchBoard {
 	}
 
 	public void generateBoards() {
-
+		SearchBoard board1;
+		SearchBoard board2;
+		if (movesToWin()>moveNumber){
 		for (int i = 0; i < board.length; i++) {
-			SearchBoard board1 = new SearchBoard(board, moveNumber + 1,1,i,history);
-			SearchBoard board2 = new SearchBoard(board, moveNumber + 1,2,i,history);
+			if (isLegalMoveOne(i))
+			board1 = new SearchBoard(board, moveNumber + 1,1,i,history);
+			if (isLegalMoveTwo(i))
+			board2 = new SearchBoard(board, moveNumber + 1,2,i,history);
 		}
 		}
+	}
+	
+	public boolean isLegalMoveOne(int pieceNumber){
+		
+		if (board[pieceNumber].getPieceType()==1 || board[pieceNumber].getPieceType()==2){
+			
+			if (board[pieceNumber].getX()==0)
+				return false;
+		}
+		
+		else{
+			if (board[pieceNumber].getY()==0)
+				return false;
+		}
+		int position = board[pieceNumber].getPositions()[0];
+		if (board[pieceNumber].getPieceType()==1 || board[pieceNumber].getPieceType()==2){
+			
+		
+		if (positions.contains(position-1))
+			return false;
+		}
+		else{
+			if (positions.contains(position-BOARDSIZE))
+				return false;
+		}
+		return true;
+	}
+	
+public boolean isLegalMoveTwo(int pieceNumber){
+		
+		if (board[pieceNumber].getPieceType()==1 || board[pieceNumber].getPieceType()==2){
+			
+			if (board[pieceNumber].getX()==(BOARDSIZE-board[pieceNumber].getLength()+1))
+				return false;
+		}
+		
+		else{
+			if (board[pieceNumber].getY()==(BOARDSIZE-board[pieceNumber].getLength()+1))
+				return false;
+		}
+		int position = board[pieceNumber].getPositions()[board[pieceNumber].getPositions().length-1];
+		if (board[pieceNumber].getPieceType()==1 || board[pieceNumber].getPieceType()==2){
+			
+		
+		if (positions.contains(position+1))
+			return false;
+		}
+		else{
+			if (positions.contains(position+BOARDSIZE))
+				return false;
+		}
+		return true;
+	}
 	
 	
 

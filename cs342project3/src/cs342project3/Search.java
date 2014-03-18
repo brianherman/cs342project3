@@ -30,7 +30,7 @@ public class Search {
 		 */
 		HashSet<String> history = new HashSet<String>();
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
-		SearchPiece[] board = new SearchPiece[4];
+		SearchPiece[] board = new SearchPiece[7];
 		board[0] = new SearchPiece(1, 1, 2, 1, 0);
 		
 		board[1] = new SearchPiece(3, 1, 2, 3, 1);
@@ -38,11 +38,13 @@ public class Search {
 		board[2] = new SearchPiece(3, 3, 2, 1, 2);
 		
 		board[3] = new SearchPiece(1, 5, 3, 2, 3);
-		/*
+		
 		board[4] = new SearchPiece(4, 5, 2, 3, 4);
+		
 		board[5] = new SearchPiece(5, 3, 3, 4, 5);
+		
 		board[6] = new SearchPiece(6, 1, 2, 3, 6);
-		*/
+		
 		
 		/*
 		firstmoves=makeFirstMoves(board);
