@@ -1,23 +1,32 @@
 package cs342project3;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public class SearchBoard {
 
 	private SearchPiece[] board;
-	private int BOARDSIZE = 6;
+	private int BOARDSIZE = 7;
 	private String boardString = "";
 	private int moveNumber;
 	private ArrayList<Integer> positions;
-	public HashSet<String> history;
-	private boolean legal=true;
-	private static int lowestWinningLine;
 	
-	public static ArrayList<Integer> wins=new ArrayList<Integer>();
+	private boolean legal=true;
+	private int lowestWinningLine;
+	
+	public static TreeSet<Integer> wins=new TreeSet<Integer>();
+	
+	SearchBoard(SearchBoard inboard){
+		this.board=inboard.board;
+		board = new SearchPiece[inboard.board.length];
+		for (int i = 0; i < inboard.board.length; i++) {
+			board[i] = new SearchPiece(inboard.board[i]);
+		}
+	}
 
-	SearchBoard(SearchPiece[] inputboard, int moveNumber, int moveDirection, int movePiece,HashSet<String> inhistory) {
+	SearchBoard(SearchPiece[] inputboard, int moveNumber, int moveDirection, int movePiece) {
 
-		history=new HashSet<String>(inhistory);
+		
 		positions = new ArrayList<Integer>();
 		board = new SearchPiece[inputboard.length];
 		for (int i = 0; i < inputboard.length; i++) {
@@ -36,9 +45,9 @@ public class SearchBoard {
 		}
 		
 		setBoardString();
+		setPositions();
 		
-		
-		
+		printBoard();
 		
 		if (isWinningBoard()){
 			
@@ -46,11 +55,7 @@ public class SearchBoard {
 			
 		}
 		
-		else if (isLegalBoard() && !history.contains(getBoardString())&& moveNumber<10){
-			setPositions();
-		history.add(boardString);
-		generateBoards();
-		}
+		
 	}
 
 	public SearchPiece getPiece(int n) {
@@ -62,12 +67,8 @@ public class SearchBoard {
 	public int movesToWin(){
 		if (wins.size()==0)
 			return 1001;
-		int min=wins.get(0);
-		for(int i=0; i<wins.size(); i++){
-			if (wins.get(i)<min)
-				min=wins.get(i);
-		}
-		return min;
+		
+		return wins.first();
 	}
 	
 	
@@ -203,18 +204,23 @@ public class SearchBoard {
 		
 	}
 
+	
 	public void generateBoards() {
 		SearchBoard board1;
 		SearchBoard board2;
 		if (movesToWin()>moveNumber){
 		for (int i = 0; i < board.length; i++) {
 			if (isLegalMoveOne(i))
-			board1 = new SearchBoard(board, moveNumber + 1,1,i,history);
+			board1 = new SearchBoard(board, moveNumber + 1,1,i);
 			if (isLegalMoveTwo(i))
-			board2 = new SearchBoard(board, moveNumber + 1,2,i,history);
+			board2 = new SearchBoard(board, moveNumber + 1,2,i);
 		}
 		}
 	}
+	
+	
+	
+	
 	
 	public boolean isLegalMoveOne(int pieceNumber){
 		

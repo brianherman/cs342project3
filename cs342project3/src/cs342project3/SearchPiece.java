@@ -6,7 +6,7 @@ public class SearchPiece {
 	private int length;
 	private int pieceid;
 	private int[] positions;
-	private int BOARDSIZE = 6;
+	private int BOARDSIZE = 7;
 
 	// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
 	private int piecetype;

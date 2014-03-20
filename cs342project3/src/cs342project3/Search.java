@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 public class Search {
 
-	public static int BOARDSIZE = 6;
+	public static int BOARDSIZE = 10;
 	
 
 	public static void main(String[] args) {
@@ -30,20 +30,28 @@ public class Search {
 		 */
 		HashSet<String> history = new HashSet<String>();
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
-		SearchPiece[] board = new SearchPiece[7];
-		board[0] = new SearchPiece(1, 1, 2, 1, 0);
+		SearchPiece[] board = new SearchPiece[1];
+		board[0] = new SearchPiece(3, 1, 2, 1, 0);
+		/*
+		board[1] = new SearchPiece(3, 1, 2, 1, 1);
 		
-		board[1] = new SearchPiece(3, 1, 2, 3, 1);
+		board[2] = new SearchPiece(6, 1, 2, 3, 2);
 		
-		board[2] = new SearchPiece(3, 3, 2, 1, 2);
+		board[3] = new SearchPiece(1, 2, 3, 4, 3);
 		
-		board[3] = new SearchPiece(1, 5, 3, 2, 3);
+		board[4] = new SearchPiece(4, 2, 3, 4, 4);
 		
-		board[4] = new SearchPiece(4, 5, 2, 3, 4);
+		board[5] = new SearchPiece(3, 5, 3, 3, 5);
 		
-		board[5] = new SearchPiece(5, 3, 3, 4, 5);
+		board[6] = new SearchPiece(6, 5, 2, 3, 6);
 		
-		board[6] = new SearchPiece(6, 1, 2, 3, 6);
+		board[7] = new SearchPiece(1, 6, 3, 3, 7);
+		
+		board[8] = new SearchPiece(6, 7, 2, 1, 8);
+		
+		board[9] = new SearchPiece(1, 6, 2, 1, 9);
+		*/
+	
 		
 		
 		/*
@@ -57,17 +65,20 @@ public class Search {
 		//System.out.println(firstmoves.get(1).getSearchCount());
 		 */
 		
-		SearchBoard searchboard = new SearchBoard(board, 0, 0, 0,history);
-		searchboard.printBoard();
-		System.out.println(searchboard.movesToWin());
+		SearchBoard searchboard = new SearchBoard(board, 0, 0, 0);
 		
+		FirstMove firstmove=new FirstMove(searchboard, 1,1,"Right");
+		
+		searchboard.printBoard();
+		System.out.println(firstmove.getMoves());
+		System.out.println(searchboard.getBoardString());
 		
 		long endtime = System.currentTimeMillis();
 		System.out.println("Runtime is " + (endtime - starttime));
 	}
-
+/*
 	public static ArrayList<FirstMove> makeFirstMoves(SearchPiece[] board) {
-
+		
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
 		for (int i = 0; i < board.length; i++) {
 			SearchBoard move1 = new SearchBoard(board, 1, 1, i,null);
@@ -99,7 +110,8 @@ public class Search {
 			}
 
 		}
+		
 		return firstmoves;
 	}
-
+	*/
 }
