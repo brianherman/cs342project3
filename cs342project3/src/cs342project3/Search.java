@@ -30,27 +30,27 @@ public class Search {
 		 */
 		HashSet<String> history = new HashSet<String>();
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
-		SearchPiece[] board = new SearchPiece[1];
-		board[0] = new SearchPiece(3, 1, 2, 1, 0);
-		/*
-		board[1] = new SearchPiece(3, 1, 2, 1, 1);
+		SearchPiece[] board = new SearchPiece[9];
+		board[0] = new SearchPiece(2, 3, 2, 1, 0);
 		
-		board[2] = new SearchPiece(6, 1, 2, 3, 2);
+		board[1] = new SearchPiece(1, 1, 2, 1, 1);
 		
-		board[3] = new SearchPiece(1, 2, 3, 4, 3);
+		board[2] = new SearchPiece(1, 2, 3, 4, 2);
+		
+		board[3] = new SearchPiece(6, 1, 2, 3, 3);
 		
 		board[4] = new SearchPiece(4, 2, 3, 4, 4);
 		
-		board[5] = new SearchPiece(3, 5, 3, 3, 5);
+		board[5] = new SearchPiece(1, 6, 3, 2, 5);
 		
 		board[6] = new SearchPiece(6, 5, 2, 3, 6);
 		
-		board[7] = new SearchPiece(1, 6, 3, 3, 7);
+		board[7] = new SearchPiece(3, 5, 3, 2, 7);
 		
 		board[8] = new SearchPiece(6, 7, 2, 1, 8);
 		
-		board[9] = new SearchPiece(1, 6, 2, 1, 9);
-		*/
+		
+		
 	
 		
 		
@@ -65,25 +65,37 @@ public class Search {
 		//System.out.println(firstmoves.get(1).getSearchCount());
 		 */
 		
-		SearchBoard searchboard = new SearchBoard(board, 0, 0, 0);
+		//SearchBoard searchboard = new SearchBoard(board, 0, 0, 0);
 		
-		FirstMove firstmove=new FirstMove(searchboard, 1,1,"Right");
+		//FirstMove firstmove=new FirstMove(searchboard, 1,1,"Right");
 		
-		searchboard.printBoard();
-		System.out.println(firstmove.getMoves());
-		System.out.println(searchboard.getBoardString());
+		//searchboard.printBoard();
+		//System.out.println(firstmove.getMoves());
+		//System.out.println(searchboard.getBoardString());
 		
+		
+		
+		firstmoves=makeFirstMoves(board);
+		System.out.println(firstmoves.size());
+		int min=1000;
+		FirstMove temp=null;
+		for (int i=0; i<firstmoves.size(); i++){
+			if (firstmoves.get(i).getMoves()<min)
+				min=firstmoves.get(i).getMoves();
+			temp = firstmoves.get(i);
+		}
+		System.out.println("Piece "+ temp.getPiece()+" " +temp.getDirection()+" wins in "+min+" moves");
 		long endtime = System.currentTimeMillis();
 		System.out.println("Runtime is " + (endtime - starttime));
 	}
-/*
+
 	public static ArrayList<FirstMove> makeFirstMoves(SearchPiece[] board) {
-		
+		ArrayList<String> history = new ArrayList<String>();
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
 		for (int i = 0; i < board.length; i++) {
-			SearchBoard move1 = new SearchBoard(board, 1, 1, i,null);
+			SearchBoard move1 = new SearchBoard(board, 1, 1, i);
 			
-			SearchBoard move2 = new SearchBoard(board, 1, 2, i,null);
+			SearchBoard move2 = new SearchBoard(board, 1, 2, i);
 			
 			move1.printBoard();
 			System.out.println("");
@@ -101,17 +113,19 @@ public class Search {
 				direction2 = "Down";
 
 			if (move1.isLegalBoard()) {
-				FirstMove firstmove1 = new FirstMove(move1, i, 1, direction1);
+				FirstMove firstmove1 = new FirstMove(move1, i, 1, direction1,history);
 				firstmoves.add(firstmove1);
+				history=firstmove1.getHistory();
 			}
 			if (move2.isLegalBoard()) {
-				FirstMove firstmove2 = new FirstMove(move2, i, 1, direction2);
+				FirstMove firstmove2 = new FirstMove(move2, i, 1, direction2,history);
 				firstmoves.add(firstmove2);
+				history=firstmove2.getHistory();
 			}
 
 		}
 		
 		return firstmoves;
 	}
-	*/
+	
 }

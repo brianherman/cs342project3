@@ -47,7 +47,7 @@ public class SearchBoard {
 		setBoardString();
 		setPositions();
 		
-		printBoard();
+		//printBoard();
 		
 		if (isWinningBoard()){
 			

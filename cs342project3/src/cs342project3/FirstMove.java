@@ -11,18 +11,18 @@ public class FirstMove {
 	private int moves;
 	
 	private int BOARDSIZE=7;
-	private int moveNumber=1;
-	private ArrayList<String> history=new ArrayList<String>();
+	private int moveNumber=0;
+	private ArrayList<String> history;
 	private ArrayList<SearchBoard> queue=new ArrayList<SearchBoard>();
 	private String boardString;
 	
-	FirstMove(SearchBoard board, int piecenumber, int numsquarestomove, String direction){
+	FirstMove(SearchBoard board, int piecenumber, int numsquarestomove, String direction,ArrayList<String> inhistory){
 		
 		this.board=board;
 		this.piecenumber=piecenumber;
 		this.numsquarestomove=numsquarestomove;
 		this.direction=direction;
-		
+		history=inhistory;
 		
 		
 		history.add(board.getBoardString());
@@ -46,7 +46,9 @@ public class FirstMove {
 		return board;
 	}
 	
-
+public ArrayList<String> getHistory(){
+	return history;
+}
 	
 	
 public boolean isLegalMoveOne(int pieceNumber){
@@ -120,42 +122,48 @@ public void setBoardString() {
 }
 
 public int generateBoards(){
-	SearchBoard board1;
-	SearchBoard board2;
+	
 	while (!queue.isEmpty()){
+		SearchBoard board1;
+		SearchBoard board2;
 		SearchBoard currentBoard=queue.get(0);
 		queue.remove(0);
+		moveNumber=currentBoard.getMoveNumber();
+		ArrayList<SearchBoard> moves = new ArrayList<SearchBoard>();
 		for (int i=0; i<currentBoard.getBoard().length; i++){
-			if(currentBoard.isLegalMoveOne(i)){
-			board1 = new SearchBoard(currentBoard.getBoard(), moveNumber,1,i);
-			if (board1.isLegalBoard()){
-				if (board1.isWinningBoard())
-					return board1.getMoveNumber();
-				else if (!history.contains(currentBoard.getBoardString())){
-					queue.add(board1);
-					history.add(currentBoard.getBoardString());
-				}
-				}
+			
+			board1 = new SearchBoard(currentBoard.getBoard(), moveNumber+1,1,i);
+			moves.add(board1);
+			//System.out.println(board1.isLegalBoard());
+			
+				
+			
+			
+			
+				board2 = new SearchBoard(currentBoard.getBoard(), moveNumber+1,2,i);
+				moves.add(board2);
+				//System.out.println(board2.isLegalBoard());
+				
+				
+			
+			
+		
+		for (int j=0; j<moves.size(); j++)
+		{
+			if (moves.get(j).isWinningBoard())
+				return moves.get(j).getMoveNumber();
+			if (moves.get(j).isLegalBoard() && !history.contains(moves.get(j).getBoardString())){
+				queue.add(moves.get(j));
+				history.add(moves.get(j).getBoardString());
 			}
-			
-			if(currentBoard.isLegalMoveTwo(i)){
-				board2 = new SearchBoard(currentBoard.getBoard(), moveNumber,2,i);
-				if (board2.isLegalBoard()){
-					if (board2.isWinningBoard())
-						return board2.getMoveNumber();
-					else if (!history.contains(currentBoard.getBoardString())){
-						queue.add(board2);
-						history.add(currentBoard.getBoardString());
-					}
-					}
-				}
-			
-			
 		}
-		moveNumber++;
+		
+		//System.out.println(queue);
+	}
+		
 	}
 	System.out.println(history);
-	return -1;
+	return 1000000;
 }
-	
+
 }
