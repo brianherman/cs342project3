@@ -15,7 +15,9 @@ public class Board {
 	private char board[][];
 	public boolean visited;
 	private int rows,cols;
-	
+	private SearchPiece sp[];
+	private BackgroundSolver2 BS2;
+	private Thread solver;
 	private Color Colors[] = {Color.red, Color.blue, Color.green, Color.cyan,Color.magenta,Color.orange,Color.pink,Color.yellow, Color.lightGray};
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	/**
@@ -135,7 +137,7 @@ public class Board {
 			counter++;
 		}
 		System.out.println("Number of pieces: " + pieces.size());
-		SearchPiece sp[] = new SearchPiece[pieces.size()];
+		sp = new SearchPiece[pieces.size()];
 		// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
 		for(int i=0; i<pieces.size(); i++){
 			int X = pieces.get(i).getX();
@@ -157,10 +159,39 @@ public class Board {
 			sp[i] = new SearchPiece(X+1, Y+1, size, converted, i);
 			sp[i].printPiece();
 		}
-		
-		//new Thread(new BackgroundSolver2(sp)).start();
-		
+		BS2 = new BackgroundSolver2(sp);
+		solver = new Thread(BS2);
+		solver.start();
 		br.close();
+	}
+	public void update(){
+		solver.interrupt();
+		sp = new SearchPiece[pieces.size()];
+		// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
+		for(int i=0; i<pieces.size(); i++){
+			int X = pieces.get(i).getX();
+			int Y = pieces.get(i).getY();
+			int d = pieces.get(i).direction();
+			int size = pieces.get(i).length();
+			int converted = 0;
+			if(d == Piece.HORIZONTAL && size == 2){
+				converted = 1;
+			}else if(d == Piece.HORIZONTAL && size == 3)
+			{
+				converted = 2;
+			}else if(d == Piece.VERTICAL && size == 2){
+				converted = 3;
+			}else{
+				converted = 4;
+			}
+			System.out.println("Adding "+ i);
+			sp[i] = new SearchPiece(X+1, Y+1, size, converted, i);
+			sp[i].printPiece();
+			sp[i].setBoardSize(rows);
+		}
+		BS2 = new BackgroundSolver2(sp);
+		solver = new Thread(BS2);
+		solver.start();
 	}
 	/**
 	 * Moves a piece Vertically.
@@ -189,6 +220,8 @@ public class Board {
 			}
 			p.setY(move);
 		}
+		update();
+		
 		return true;
 
 	}
@@ -217,6 +250,8 @@ public class Board {
 			}
 			p.setX(move);
 		}
+		update();
+
 		return true;
 	}
 	/**
@@ -277,7 +312,6 @@ public class Board {
 					}
 				}
 			}
-			//System.out.println("===BOARD===");
 			for(int i=0; i<rows; i++){
 				for(int j=0; j<cols; j++){
 					ret += board[i][j] ;
@@ -290,5 +324,8 @@ public class Board {
 		if(pieces.get(0).getX()==5)
 			return true;
 		return false;
+	}
+	public String getHint(){
+		return BS2.getHint();
 	}
 }

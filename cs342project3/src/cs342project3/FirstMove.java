@@ -16,7 +16,7 @@ public class FirstMove {
 	private ArrayList<SearchBoard> queue=new ArrayList<SearchBoard>();
 	private String boardString;
 	
-	FirstMove(SearchBoard board, int piecenumber, int numsquarestomove, String direction,ArrayList<String> inhistory){
+	public FirstMove(SearchBoard board, int piecenumber, int numsquarestomove, String direction,ArrayList<String> inhistory){
 		
 		this.board=board;
 		this.piecenumber=piecenumber;
@@ -30,6 +30,14 @@ public class FirstMove {
 		moves=generateBoards();
 	}
 	
+	public int getBoardsize() {
+		return BOARDSIZE;
+	}
+
+	public void setBoardsize(int b) {
+		BOARDSIZE = b;
+	}
+
 	public int getMoves(){
 		return moves;
 	}

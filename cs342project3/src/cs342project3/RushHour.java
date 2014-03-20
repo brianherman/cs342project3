@@ -123,6 +123,10 @@ public class RushHour extends JFrame{
 			{
 				JOptionPane.showMessageDialog(null, "Good Luck!");
 			}
+			if(hint == e.getSource())
+			{
+				JOptionPane.showMessageDialog(null, canvas.getHint());
+			}
 		}
 	}
 }

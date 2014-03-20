@@ -16,7 +16,7 @@ public class SearchBoard {
 	
 	public static TreeSet<Integer> wins=new TreeSet<Integer>();
 	
-	SearchBoard(SearchBoard inboard){
+	public SearchBoard(SearchBoard inboard){
 		this.board=inboard.board;
 		board = new SearchPiece[inboard.board.length];
 		for (int i = 0; i < inboard.board.length; i++) {
@@ -24,7 +24,7 @@ public class SearchBoard {
 		}
 	}
 
-	SearchBoard(SearchPiece[] inputboard, int moveNumber, int moveDirection, int movePiece) {
+	public SearchBoard(SearchPiece[] inputboard, int moveNumber, int moveDirection, int movePiece) {
 
 		
 		positions = new ArrayList<Integer>();
@@ -110,7 +110,10 @@ public class SearchBoard {
 		return boardString;
 	}		
 		
-	
+	public void setBoardSize(int size)
+	{
+		BOARDSIZE=size;
+	}
 
 	public boolean isLegalBoard() {
 

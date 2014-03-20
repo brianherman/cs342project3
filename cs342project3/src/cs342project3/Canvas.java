@@ -18,7 +18,7 @@ public class Canvas extends JPanel {
 		setPreferredSize(new Dimension(board.getRows()*114,board.getCols()*114));
 		addMouseListener(ma);
 		ArrayList<String> history = new ArrayList<String>();
-		new Thread(new BackgroundSolver(board2, history)).start();
+		//new Thread(new BackgroundSolver(board2, history)).start();
 	}
 
 	@Override
@@ -72,6 +72,7 @@ public class Canvas extends JPanel {
 	public void reset()
 	{
 		board = new Board(level);
+		board.update();
 		repaint();
 	}
 	/**
@@ -82,6 +83,7 @@ public class Canvas extends JPanel {
 	{
 		level = new File("level" + l + ".txt");
 		board = new Board(level);
+		board.update();
 		repaint();
 	}
 	/**
@@ -92,6 +94,10 @@ public class Canvas extends JPanel {
 	{
 		level = f;
 		board = new Board(level);
+		board.update();
 		repaint();
+	}
+	public String getHint(){
+		return board.getHint();
 	}
 }

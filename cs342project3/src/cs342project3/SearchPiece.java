@@ -11,7 +11,7 @@ public class SearchPiece {
 	// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
 	private int piecetype;
 
-	SearchPiece(int x, int y, int length, int piecetype, int pieceid) {
+	public SearchPiece(int x, int y, int length, int piecetype, int pieceid) {
 
 		this.x = x;
 		this.y = y;
@@ -31,7 +31,7 @@ public class SearchPiece {
 		}
 	}
 
-	SearchPiece(SearchPiece p) {
+	public SearchPiece(SearchPiece p) {
 		this.x = p.x;
 		this.y = p.y;
 		this.length = p.length;
@@ -112,13 +112,20 @@ public class SearchPiece {
 			positions[0] = -1;
 		}
 	}
-
+	public void setBoardSize(int size)
+	{
+		BOARDSIZE=size;
+	}
 	public int getPieceType() {
 		return piecetype;
 	}
 	
 	public void printPiece(){
 		System.out.println(""+ x +" "+ y+" "+length+" "+piecetype+" "+pieceid);
+	}
+
+	public int getBoardSize() {
+		return BOARDSIZE;
 	}
 
 }
