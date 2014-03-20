@@ -1,5 +1,6 @@
 package cs342project3;
 
+
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
@@ -8,10 +9,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Board {
 	private char board[][];
+	public boolean visited;
 	private int rows,cols;
+	
 	private Color Colors[] = {Color.red, Color.blue, Color.green, Color.cyan,Color.magenta,Color.orange,Color.pink,Color.yellow, Color.lightGray};
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
 	/**
@@ -47,8 +51,15 @@ public class Board {
 						pieces.get(i).getX()*114,pieces.get(i).getY()*114,114,pieces.get(i).length()*114));
 			}
 		}
-
+		
 		//placePieces();
+	}
+	public Board(Board b)
+	{
+		rows = b.rows;
+		cols = b.cols;
+		pieces = b.pieces;
+		board = b.board;
 	}
 	/*
 	 * The first integer will be the starting row position. 
@@ -123,66 +134,90 @@ public class Board {
 			}
 			counter++;
 		}
+		System.out.println("Number of pieces: " + pieces.size());
+		SearchPiece sp[] = new SearchPiece[pieces.size()];
+		// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
+		for(int i=0; i<pieces.size(); i++){
+			int X = pieces.get(i).getX();
+			int Y = pieces.get(i).getY();
+			int d = pieces.get(i).direction();
+			int size = pieces.get(i).length();
+			int converted = 0;
+			if(d == Piece.HORIZONTAL && size == 2){
+				converted = 1;
+			}else if(d == Piece.HORIZONTAL && size == 3)
+			{
+				converted = 2;
+			}else if(d == Piece.VERTICAL && size == 2){
+				converted = 3;
+			}else{
+				converted = 4;
+			}
+			System.out.println("Adding "+ i);
+			sp[i] = new SearchPiece(X+1, Y+1, size, converted, i);
+			sp[i].printPiece();
+		}
+		
+		//new Thread(new BackgroundSolver2(sp)).start();
+		
 		br.close();
-
-
 	}
 	/**
 	 * Moves a piece Vertically.
 	 * @param p the piece to be moved
 	 * @param modifier, how many squares to move it
 	 */
-	public void moveVertical(Piece p, int modifier)
+	public boolean moveVertical(Piece p, int modifier)
 	{
 		int previous = p.getY();
 		int move=p.getY()+modifier;
-		System.out.println("MOVE IS:"+move);
-//		if(move==-1)
-//			move=1;
+		//System.out.println("MOVE IS:"+move);
+
 		if(move >= 0 && move < cols-1){
 			p.setY(move);
 
-			System.out.println("Preforming move");
+			//System.out.println("Preforming move");
 			for(int i=0; i<pieces.size(); i++){
 				if(i != p.id()){
-					System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
+					//System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
 					if(p.bounds().intersects(pieces.get(i).bounds()))
 					{
 						p.setY(previous);
-						return;
+						return false;
 					}
 				}
 			}
 			p.setY(move);
-
 		}
+		return true;
+
 	}
 	/**
 	 * Moves a piece horizontally.
 	 * @param p the piece to be moved
 	 * @param modifier, how many squares to move it
 	 */
-	public void moveHorizontal(Piece p, int modifier)
+	public boolean moveHorizontal(Piece p, int modifier)
 	{
 		int previous = p.getX();
 		int move=p.getX()+modifier;
-		System.out.println("MOVE IS:"+move);
-//		if(move==-1)
-//			move=1;
+		//System.out.println("MOVE IS:"+move);
+
 		if(move >= 0 && move < rows-1){
 			p.setX(move);
 			for(int i=0; i<pieces.size(); i++){
-				System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
+				//System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
 				if(i != p.id()){
 					if(p.bounds().intersects(pieces.get(i).bounds()))
 					{
 						p.setX(previous);
-						return;
+						return false;
 					}
 				}
 			}
 			p.setX(move);
 		}
+		return true;
 	}
 	/**
 	 * Returns the number of pieces
@@ -213,5 +248,47 @@ public class Board {
 	 */
 	public int getCols(){
 		return rows;
+	}
+	private char char2int[] = {'Z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'};
+
+	public String toString(){
+			String ret = "";
+			for(int i=0; i<rows; i++)
+			{
+				for(int j=0; j<cols; j++)
+				{
+					board[i][j]=' ';
+				}
+			}
+			for(int i=0; i<pieces.size(); i++)
+			{
+				if(pieces.get(i).direction()==Piece.HORIZONTAL)
+				{
+					for(int j=0; j <pieces.get(i).length(); j++)
+					{
+						if(pieces.get(i).getX()+j< cols)
+							board[pieces.get(i).getY()][pieces.get(i).getX()+j]=char2int[pieces.get(i).id()];
+					}
+				}else{
+					for(int j=0; j <pieces.get(i).length(); j++)
+					{
+						if(pieces.get(i).getY()+j < rows)
+							board[pieces.get(i).getY()+j][pieces.get(i).getX()]=char2int[pieces.get(i).id()];
+					}
+				}
+			}
+			//System.out.println("===BOARD===");
+			for(int i=0; i<rows; i++){
+				for(int j=0; j<cols; j++){
+					ret += board[i][j] ;
+				}
+				ret += "\n";
+			}
+			return ret;
+	}
+	public boolean isGoalState() {
+		if(pieces.get(0).getX()==5)
+			return true;
+		return false;
 	}
 }

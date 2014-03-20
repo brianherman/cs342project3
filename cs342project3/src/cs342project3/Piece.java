@@ -136,8 +136,8 @@ public class Piece {
 				return LEFT;
 			else
 				return RIGHT;
-		else if (this.bounds().getCenterX() > p.x
-				&& this.bounds().getCenterY() > p.y)
+		else if (this.bounds().getCenterX() < p.x
+				&& this.bounds().getCenterY() < p.y)
 			return DOWN;
 		else
 			return UP;
