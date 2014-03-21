@@ -12,7 +12,7 @@ public class RushHour extends JFrame{
 	private JMenuBar menuBar;
 	private JMenu game, help,levels;
 	private JMenuItem load, reset, hint, exit, helpMenu, about;
-	private JMenuItem levelItems[]= new JMenuItem[10];
+	private JMenuItem levelItems[]= new JMenuItem[11];
 	private JFileChooser fc;
 	public static void main(String[] args) {
 		/*For Mac Users, sets the menu bar on the top*/
@@ -52,13 +52,13 @@ public class RushHour extends JFrame{
 		about.setMnemonic('A');
 		exit = new JMenuItem("Exit");
 		exit.setMnemonic('X');
-		for(int i=0; i<9; i++){
+		for(int i=0; i<10; i++){
 			levelItems[i]= new JMenuItem("Level "+i);
 		}
 		load = new JMenuItem("Open File...");
 
 		/*Listeners for all the menus*/
-		for(int i=0; i<9; i++){
+		for(int i=0; i<10; i++){
 			levelItems[i].addActionListener(mwl);
 		}
 		load.addActionListener(mwl);
@@ -73,7 +73,7 @@ public class RushHour extends JFrame{
 		game.add(reset);
 		game.add(hint);
 		game.add(exit);
-		for(int i=0; i<9; i++)
+		for(int i=0; i<10; i++)
 			levels.add(levelItems[i]);
 		/*Adding them to the help menu*/
 		help.add(helpMenu);
@@ -91,7 +91,7 @@ public class RushHour extends JFrame{
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			for(int i=0; i<9; i++){
+			for(int i=0; i<10; i++){
 				if(levelItems[i]==e.getSource())
 				{
 					canvas.load(i);
