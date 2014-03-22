@@ -207,18 +207,18 @@ public class Board {
 		//System.out.println("MOVE IS:"+move);
 
 			p.setY(move);
-			if(boundary.contains(p.bounds())){
+			
 			//System.out.println("Preforming move");
 			for(int i=0; i<pieces.size(); i++){
 				if(i != p.id()){
 					//System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
-					if(p.bounds().intersects(pieces.get(i).bounds()))
+					if(p.bounds().intersects(pieces.get(i).bounds()) || !boundary.contains(p.bounds()))
 					{
 						p.setY(previous);
 						return false;
 					}
 				}
-			}
+			
 			p.setY(move);
 		}
 		update();
@@ -241,7 +241,7 @@ public class Board {
 			for(int i=0; i<pieces.size(); i++){
 				//System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
 				if(i != p.id()){
-					if(p.bounds().intersects(pieces.get(i).bounds()))
+					if(p.bounds().intersects(pieces.get(i).bounds())|| !boundary.contains(p.bounds()))
 					{
 						p.setX(previous);
 						return false;
