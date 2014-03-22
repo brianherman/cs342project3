@@ -20,6 +20,7 @@ public class Board {
 	private Thread solver;
 	private Color Colors[] = {Color.red, Color.blue, Color.green, Color.cyan,Color.magenta,Color.orange,Color.pink,Color.yellow, Color.lightGray};
 	private ArrayList<Piece> pieces = new ArrayList<Piece>();
+	private Rectangle boundary;
 	/**
 	 * Creates a new board based on a filename
 	 * @param fname
@@ -163,6 +164,7 @@ public class Board {
 		solver = new Thread(BS2);
 		solver.start();
 		br.close();
+		boundary = new Rectangle(0,0,rows*114,cols*114);
 	}
 	public void update(){
 		solver.interrupt();
@@ -204,9 +206,8 @@ public class Board {
 		int move=p.getY()+modifier;
 		//System.out.println("MOVE IS:"+move);
 
-		if(move >= 0 && move < cols-1){
 			p.setY(move);
-
+			if(boundary.contains(p.bounds())){
 			//System.out.println("Preforming move");
 			for(int i=0; i<pieces.size(); i++){
 				if(i != p.id()){
@@ -235,8 +236,7 @@ public class Board {
 		int previous = p.getX();
 		int move=p.getX()+modifier;
 		//System.out.println("MOVE IS:"+move);
-
-		if(move >= 0 && move < rows-1){
+		if(boundary.contains(p.bounds())){
 			p.setX(move);
 			for(int i=0; i<pieces.size(); i++){
 				//System.out.println(i + ": "+p.bounds().intersects(pieces.get(i).bounds()));
@@ -321,7 +321,8 @@ public class Board {
 			return ret;
 	}
 	public boolean isGoalState() {
-		if(pieces.get(0).getX()==5)
+		System.err.println(pieces.get(0).getX());
+		if(pieces.get(0).getX()==(cols-2))
 			return true;
 		return false;
 	}

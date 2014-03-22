@@ -279,6 +279,6 @@ public boolean isLegalMoveTwo(int pieceNumber){
 	
 	
 
-	}
+}
 
 

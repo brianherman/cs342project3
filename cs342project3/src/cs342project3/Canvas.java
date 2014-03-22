@@ -6,19 +6,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 	private File level= new File("level0.txt");
 	private Board board = new Board(level);
 	private Board board2 = new Board(level);
-	
+	private boolean freezeboard=false;
 	public Canvas() {
 		PanelMouseAdapter ma = new PanelMouseAdapter();
 		setPreferredSize(new Dimension(board.getRows()*114,board.getCols()*114));
 		addMouseListener(ma);
 		ArrayList<String> history = new ArrayList<String>();
-		//new Thread(new BackgroundSolver(board2, history)).start();
 	}
 
 	@Override
@@ -42,6 +42,13 @@ public class Canvas extends JPanel {
 		}
 		
 		public void mouseReleased(MouseEvent e) {
+			if(freezeboard)
+				return;
+			if(board.isGoalState())
+			{
+				JOptionPane.showMessageDialog(null, "You won!");
+				freezeboard=true;
+			}
 			int modifier = (int) Math.floor(Point.distance(pressed.x,pressed.y,e.getX(),e.getY())/114);
 			for(int i=0; i<board.numberOfPieces(); i++){
 				//System.out.println(Math.ceil(Point.distance(pressed.x,pressed.y,e.getX(),e.getY())/(board.get(i).length()*114)));
@@ -73,6 +80,7 @@ public class Canvas extends JPanel {
 	{
 		board = new Board(level);
 		board.update();
+		freezeboard=false;
 		repaint();
 	}
 	/**
@@ -84,6 +92,7 @@ public class Canvas extends JPanel {
 		level = new File("level" + l + ".txt");
 		board = new Board(level);
 		board.update();
+		freezeboard=false;
 		repaint();
 	}
 	/**
@@ -95,6 +104,7 @@ public class Canvas extends JPanel {
 		level = f;
 		board = new Board(level);
 		board.update();
+		freezeboard=false;
 		repaint();
 	}
 	public String getHint(){

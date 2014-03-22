@@ -121,7 +121,7 @@ public class RushHour extends JFrame{
 			/*Display the rules of the game*/
 			if(helpMenu == e.getSource())
 			{
-				JOptionPane.showMessageDialog(null, "Good Luck!");
+				JOptionPane.showMessageDialog(null, "Click on a piece to move it. Get the red piece to move to the 5th column and you have won.");
 			}
 			if(hint == e.getSource())
 			{

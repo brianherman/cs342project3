@@ -22,7 +22,7 @@ public class BackgroundSolver2 implements Runnable{
 	public void run() {
 		ArrayList<FirstMove> firstmoves = new ArrayList<FirstMove>();
 		firstmoves=makeFirstMoves(pieces);
-		System.out.println(firstmoves.size());
+		//System.out.println(firstmoves.size());
 		int min=1000;
 		FirstMove temp=null;
 		for (int i=0; i<firstmoves.size(); i++){
@@ -30,7 +30,7 @@ public class BackgroundSolver2 implements Runnable{
 				min = firstmoves.get(i).getMoves();
 			temp = firstmoves.get(i);
 		}
-		System.out.println("The " + Colors[temp.getPiece()] +" Piece number " + temp.getPiece()+" " +temp.getDirection()+" wins in "+min+" moves");
+		//System.out.println("The " + Colors[temp.getPiece()] +" Piece number " + temp.getPiece()+" " +temp.getDirection()+" wins in "+min+" moves");
 		hint = "The " + Colors[temp.getPiece()] +" Piece number "+ temp.getPiece()+" " +temp.getDirection()+" wins in "+min+" moves";
 
 	}
@@ -45,9 +45,9 @@ public class BackgroundSolver2 implements Runnable{
 			move2.setBoardSize(board[0].getBoardSize());
 			
 			move1.printBoard();
-			System.out.println("");
+			//System.out.println("");
 			move2.printBoard();
-			System.out.println("");
+			//System.out.println("");
 			String direction1;
 			String direction2;
 			if (board[i].getPieceType() == 1 || board[i].getPieceType() == 2)
