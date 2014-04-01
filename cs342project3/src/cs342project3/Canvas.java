@@ -14,13 +14,18 @@ public class Canvas extends JPanel {
 	private Board board = new Board(level);
 	private Board board2 = new Board(level);
 	private boolean freezeboard=false;
+	/**
+	 * Constuctor for the canvas.
+	 */
 	public Canvas() {
 		PanelMouseAdapter ma = new PanelMouseAdapter();
 		setPreferredSize(new Dimension(board.getRows()*114,board.getCols()*114));
 		addMouseListener(ma);
 		ArrayList<String> history = new ArrayList<String>();
 	}
-
+	/**
+	 * Paints the components onto the graphics object.
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -35,12 +40,22 @@ public class Canvas extends JPanel {
 		}
 		g.setColor(Color.black);
 	}
+	/**
+	 * Handles the mouse Clicks for the Canvas.
+	 * @author brianherman
+	 *
+	 */
 	private class PanelMouseAdapter extends MouseAdapter{
 		Point pressed = new Point();
+		/**
+		 * Capture the inital click.
+		 */
 		public void mousePressed(MouseEvent e) {
 			pressed = e.getPoint();
 		}
-		
+		/**
+		 * If they released the mouse calculate the distance and reflect that onto the board.
+		 */
 		public void mouseReleased(MouseEvent e) {
 			if(freezeboard)
 				return;

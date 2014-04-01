@@ -9,10 +9,17 @@ public class BackgroundSolver2 implements Runnable{
 	private SearchPiece pieces[];
 	private String hint = "Still thinking.";
 	private String Colors[] = {"red", "blue", "green", "cyan" ,"magenta","orange","pink","yellow", "lightGray"};
-
+	/**
+	 * Creates a new background solver based on the search pieces provided.
+	 * @param b
+	 */
 	public BackgroundSolver2(SearchPiece b[]){
 		pieces = b;
 	}
+	/**
+	 * Updates the search pieces.
+	 * @param b
+	 */
 	public void update(SearchPiece b[])
 	{
 		String hint = "Still thinking.";
@@ -74,6 +81,10 @@ public class BackgroundSolver2 implements Runnable{
 		
 		return firstmoves;
 	}
+	/**
+	 * Returns the hint from the solver.
+	 * @return
+	 */
 	public String getHint(){
 		return hint;
 	}

@@ -23,7 +23,16 @@ public class Piece {
 	private Rectangle bounds;
 	private boolean goal;
 	
-	
+	/**
+	 * Creates a piece
+	 * @param a
+	 * @param b
+	 * @param l
+	 * @param d
+	 * @param c
+	 * @param i
+	 * @param g
+	 */
 	public Piece(int a, int b,int l, int d, Color c, int i, boolean g)
 	{
 		x=a;
@@ -34,6 +43,10 @@ public class Piece {
 		id=i;
 		goal=g;
 	}
+	/**
+	 * Copy constructor for a piece.
+	 * @param p
+	 */
 	public Piece(Piece p) {
 		x=p.x;
 		y=p.y;

@@ -10,7 +10,14 @@ public class SearchPiece {
 
 	// 1=2 horizontal 2=3horizontal 3=2vertical 4=3vertical
 	private int piecetype;
-
+	/**
+	 * Creates a new search piece.
+	 * @param x
+	 * @param y
+	 * @param length
+	 * @param piecetype
+	 * @param pieceid
+	 */
 	public SearchPiece(int x, int y, int length, int piecetype, int pieceid) {
 
 		this.x = x;
@@ -30,7 +37,10 @@ public class SearchPiece {
 
 		}
 	}
-
+	/**
+	 * Copy constructor for search piece.
+	 * @param p
+	 */
 	public SearchPiece(SearchPiece p) {
 		this.x = p.x;
 		this.y = p.y;
@@ -48,33 +58,54 @@ public class SearchPiece {
 
 		}
 	}
-
+	/**
+	 * Returns the number of positions.
+	 * @return
+	 */
 	public int[] getPositions() {
 		return positions;
 	}
-	
+	/**
+	 * Returns the piece id.
+	 * @return
+	 */
 	public int getPieceId(){
 		return pieceid;
 	}
-	
+	/**
+	 * Returns the length of the piece
+	 * @return
+	 */
 	public int getLength(){
 		return length;
 	}
-
+	/**
+	 * Returns the orentation of the piece.
+	 * @return
+	 */
 	public boolean getHorizontal() {
 		if (piecetype == 1 || piecetype == 2)
 			return true;
 		return false;
 	}
-
+	/**
+	 * Returns the X value of a piece.
+	 * @return
+	 */
 	public int getX() {
 		return x;
 	}
-
+	/**
+	 * Returns the Y value of a piece.
+	 * @return
+	 */
 	public int getY() {
 		return y;
 	}
-
+	/**
+	 * Sets the X value of a piece.
+	 * @param newx
+	 */
 	public void setX(int newx) {
 		this.x = newx;
 		positions = new int[length];
@@ -93,7 +124,10 @@ public class SearchPiece {
 			positions[0] = -1;
 		}
 	}
-
+	/**
+	 * Sets the Y value of a piece.
+	 * @param newy
+	 */
 	public void setY(int newy) {
 		this.y = newy;
 		positions = new int[length];

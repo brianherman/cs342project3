@@ -15,7 +15,10 @@ public class SearchBoard {
 	private int lowestWinningLine;
 	
 	public static TreeSet<Integer> wins=new TreeSet<Integer>();
-	
+	/**
+	 * Copy constructor for the search board.
+	 * @param inboard
+	 */
 	public SearchBoard(SearchBoard inboard){
 		this.board=inboard.board;
 		board = new SearchPiece[inboard.board.length];
@@ -23,7 +26,13 @@ public class SearchBoard {
 			board[i] = new SearchPiece(inboard.board[i]);
 		}
 	}
-
+	/**
+	 * Creates a new search board.
+	 * @param inputboard
+	 * @param moveNumber
+	 * @param moveDirection
+	 * @param movePiece
+	 */
 	public SearchBoard(SearchPiece[] inputboard, int moveNumber, int moveDirection, int movePiece) {
 
 		
@@ -57,28 +66,34 @@ public class SearchBoard {
 		
 		
 	}
-
+	/**
+	 * Returns a piece at the specified index.
+	 * @param n
+	 * @return
+	 */
 	public SearchPiece getPiece(int n) {
 		return board[n];
 	}
-	
-	
-	
+	/**
+	 * Returns the moves until a win state has been reached.
+	 * @return
+	 */
 	public int movesToWin(){
 		if (wins.size()==0)
 			return 1001;
 		
 		return wins.first();
 	}
-	
-	
-	
-	
-	
+	/**
+	 * Returns the number of positions.
+	 * @return ArrayList<Integer> of positions
+	 */
 	public ArrayList<Integer> getPositions(){
 		return positions;
 	}
-
+	/**
+	 * Sets the number of postions
+	 */
 	public void setPositions() {
 		positions.clear();
 		for (int i = 0; i < board.length; i++) {
@@ -88,7 +103,9 @@ public class SearchBoard {
 			}
 		}
 	}
-
+	/**
+	 * Sets the string that identifies a board.
+	 */
 	public void setBoardString() {
 		
 		for (int i = 0; i < BOARDSIZE * BOARDSIZE; i++) {
@@ -105,16 +122,25 @@ public class SearchBoard {
 				boardString = boardString + "-";
 		}
 	}
-	
+	/**
+	 * Returns a string that identifies the board.
+	 * @return String the board string
+	 */
 	public String getBoardString(){
 		return boardString;
 	}		
-		
+	/**
+	 * Sets the size of a board.
+	 * @param size
+	 */
 	public void setBoardSize(int size)
 	{
 		BOARDSIZE=size;
 	}
-
+	/**
+	 * Determines if a board is legal.
+	 * @return
+	 */
 	public boolean isLegalBoard() {
 
 		if(legal==false)
@@ -130,7 +156,10 @@ public class SearchBoard {
 		return true;
 		}
 	}
-
+	/**
+	 * Determines if a board is a winner.
+	 * @return
+	 */
 	public boolean isWinningBoard() {
 
 		if (board[0].getPieceType() == 1 && board[0].getX() == BOARDSIZE - 1)
@@ -141,16 +170,23 @@ public class SearchBoard {
 		else
 			return false;
 	}
-
+	/**
+	 * Returns the board with all the search pieces.
+	 * @return
+	 */
 	public SearchPiece[] getBoard() {
 		return board;
 	}
-
+	/**
+	 * Gets the number of moves.
+	 * @return
+	 */
 	public int getMoveNumber() {
 		return moveNumber;
 	}
-	
-
+	/**
+	 * Prints the board.
+	 */
 	public void printBoard() {
 		System.out.println("Move: "+moveNumber);
 		for (int i = 0; i < BOARDSIZE; i++) {
@@ -165,6 +201,10 @@ public class SearchBoard {
 	}
 
 	// move left or up
+	/**
+	 * Makes a move left or up.
+	 * @param piecenumber
+	 */
 	public void moveOne(int piecenumber) {
 		
 		if (board[piecenumber].getPieceType() == 1
@@ -187,6 +227,10 @@ public class SearchBoard {
 	}
 
 	// move down or right
+	/**
+	 * Makes a move down or right.
+	 * @param piecenumber
+	 */
 	public void moveTwo(int piecenumber) {
 		if (board[piecenumber].getPieceType() == 1
 				|| board[piecenumber].getPieceType() == 2) {
@@ -206,8 +250,9 @@ public class SearchBoard {
 		}
 		
 	}
-
-	
+	/**
+	 * Recursively calls the searchboard and simulates the moves.
+	 */
 	public void generateBoards() {
 		SearchBoard board1;
 		SearchBoard board2;

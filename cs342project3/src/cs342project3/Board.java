@@ -57,6 +57,10 @@ public class Board {
 		
 		//placePieces();
 	}
+	/**
+	 * Copy constructor for board.
+	 * @param b
+	 */
 	public Board(Board b)
 	{
 		rows = b.rows;
@@ -166,6 +170,9 @@ public class Board {
 		br.close();
 		boundary = new Rectangle(0,0,rows*114,cols*114);
 	}
+	/**
+	 * Updates the solver based on the pieces.
+	 */
 	public void update(){
 		solver.interrupt();
 		sp = new SearchPiece[pieces.size()];
@@ -285,7 +292,9 @@ public class Board {
 		return rows;
 	}
 	private char char2int[] = {'Z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'};
-
+	/**
+	 * Returns a string representation of the board.
+	 */
 	public String toString(){
 			String ret = "";
 			for(int i=0; i<rows; i++)
