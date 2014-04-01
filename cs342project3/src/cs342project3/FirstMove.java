@@ -29,36 +29,61 @@ public class FirstMove {
 		queue.add(board);
 		moves=generateBoards();
 	}
-	
+	/**
+	 * Gets the board size
+	 * @return
+	 */
 	public int getBoardsize() {
 		return BOARDSIZE;
 	}
-
+	/**
+	 * Sets the board size
+	 * @param b
+	 */
 	public void setBoardsize(int b) {
 		BOARDSIZE = b;
 	}
-
+	/**
+	 * Returns the moves
+	 * @return
+	 */
 	public int getMoves(){
 		return moves;
 	}
-	
+	/**
+	 * Returns the piece index
+	 * @return
+	 */
 	public int getPiece(){
 		return piecenumber;
 	}
-	
+	/**
+	 * Returns the direction of the First Move/
+	 * @return
+	 */
 	public String getDirection(){
 		return direction;
 	}
-	
+	/**
+	 * returns the searchboard
+	 * @return
+	 */
 	public SearchBoard getSearchBoard(){
 		return board;
 	}
-	
+	/**
+	 * returns the history of the moves preformed
+	 * @return
+	 */
 public ArrayList<String> getHistory(){
 	return history;
 }
 	
-	
+/**
+ * Determines if the move is legal
+ * @param pieceNumber
+ * @return
+ */
 public boolean isLegalMoveOne(int pieceNumber){
 		
 		if (board.getBoard()[pieceNumber].getPieceType()==1 || board.getBoard()[pieceNumber].getPieceType()==2){
@@ -84,7 +109,11 @@ public boolean isLegalMoveOne(int pieceNumber){
 		}
 		return true;
 	}
-
+/**
+ * Determines if the move is legal
+ * @param pieceNumber
+ * @return
+ */
 public boolean isLegalMoveTwo(int pieceNumber){
 	
 	if (board.getBoard()[pieceNumber].getPieceType()==1 || board.getBoard()[pieceNumber].getPieceType()==2){
@@ -111,7 +140,9 @@ public boolean isLegalMoveTwo(int pieceNumber){
 	return true;
 }
 
-
+/**
+ * Generates the board string.
+ */
 public void setBoardString() {
 	
 	for (int i = 0; i < BOARDSIZE * BOARDSIZE; i++) {
@@ -128,7 +159,10 @@ public void setBoardString() {
 			boardString = boardString + "-";
 	}
 }
-
+/**
+ * Preforms the BFS algorithm.
+ * @return
+ */
 public int generateBoards(){
 	
 	while (!queue.isEmpty()){

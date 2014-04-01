@@ -329,12 +329,20 @@ public class Board {
 			}
 			return ret;
 	}
+	/**
+	 * Determines if a board is a winning board.
+	 * @return
+	 */
 	public boolean isGoalState() {
 		System.err.println(pieces.get(0).getX());
 		if(pieces.get(0).getX()==(cols-2))
 			return true;
 		return false;
 	}
+	/**
+	 * Returns the hint.
+	 * @return
+	 */
 	public String getHint(){
 		return BS2.getHint();
 	}

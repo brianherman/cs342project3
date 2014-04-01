@@ -146,18 +146,31 @@ public class SearchPiece {
 			positions[0] = -1;
 		}
 	}
+	/**
+	 * Sets the board size.
+	 * @param size
+	 */
 	public void setBoardSize(int size)
 	{
 		BOARDSIZE=size;
 	}
+	/**
+	 * Gets the type of the piece
+	 * @return
+	 */
 	public int getPieceType() {
 		return piecetype;
 	}
-	
+	/**
+	 * A nice way to print out the pieces.
+	 */
 	public void printPiece(){
 		System.out.println(""+ x +" "+ y+" "+length+" "+piecetype+" "+pieceid);
 	}
-
+	/**
+	 * Returns the board size.
+	 * @return
+	 */
 	public int getBoardSize() {
 		return BOARDSIZE;
 	}
